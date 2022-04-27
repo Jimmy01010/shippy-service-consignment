@@ -19,6 +19,7 @@ const (
 
 type repository interface {
 	Create(*pb.Consignment) (*pb.Consignment, error)
+	GetAll() []*pb.Consignment
 }
 
 // Repository - Dummy repository, this simulates the use of a datastore
@@ -26,7 +27,7 @@ type repository interface {
 // 虚拟存储库，这模拟了某种数据存储的使用。稍后我们将用一个真正的实现来替换它。
 type Repository struct {
 	mu           sync.RWMutex
-	consignments []*pb.Consignment
+	consignments []*pb.Consignment // 运输的仓库货物
 }
 
 // Create a new consignment
@@ -36,6 +37,11 @@ func (repo *Repository) Create(consignment *pb.Consignment) (*pb.Consignment, er
 	repo.consignments = updated
 	repo.mu.Unlock()
 	return consignment, nil
+}
+
+// GetAll consignments
+func (repo *Repository) GetAll() []*pb.Consignment {
+	return repo.consignments
 }
 
 // Service should implement all of the methods to satisfy the service
@@ -52,7 +58,7 @@ type service struct {
 // CreateConsignment - we created just one method on our service,
 // which is a create method, which takes a context and a request as an
 // argument, these are handled by the gRPC server.
-// 我们在服务上只创建了一个方法，这是一个create方法，它接受一个上下文和一个请求作为参数，这些都是由gRPC服务器处理的。
+// CreateConsignment——我们在服务上只创建了一个方法，这是一个create方法，它接受一个上下文和一个请求作为参数，这些都是由gRPC服务器处理的。
 func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*pb.Response, error) {
 
 	// Save our consignment
@@ -64,6 +70,12 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*
 	// Return matching the `Response` message we created in our
 	// protobuf definition.
 	return &pb.Response{Created: true, Consignment: consignment}, nil
+}
+
+// GetConsignments -
+func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.Response, error) {
+	consignments := s.repo.GetAll()
+	return &pb.Response{Consignments: consignments}, nil
 }
 
 func main() {
