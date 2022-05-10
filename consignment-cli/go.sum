@@ -1,8 +1,8 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Jimmy01010/shippy-service-consignment v0.0.0-20220221030830-e4fbb0147d54 h1:CxY9jCueWuhR+M06CzcCV5z/X56W41EulR6D0OULnNw=
-github.com/Jimmy01010/shippy-service-consignment v0.0.0-20220221030830-e4fbb0147d54/go.mod h1:EWOvnVlzNKs/7S1loZ7NbGdIEfjrd51zs36SK8wNXU8=
+github.com/Jimmy01010/shippy-service-consignment v0.0.0-20220324080005-1b3c72293b1f h1:8L6K7S6eY9P6ozjkxEAnSyFp2z3JRR/rP43S3d5sb3k=
+github.com/Jimmy01010/shippy-service-consignment v0.0.0-20220324080005-1b3c72293b1f/go.mod h1:EWOvnVlzNKs/7S1loZ7NbGdIEfjrd51zs36SK8wNXU8=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
