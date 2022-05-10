@@ -3,12 +3,12 @@ package main
 
 import (
 	"context"
+	"go-micro.dev/v4"
 	"log"
 	"sync"
 
 	// Import the generated protobuf code
 	pb "github.com/Jimmy01010/shippy-service-consignment/proto/consignment"
-	"go-micro.dev/v4"
 )
 
 const (
