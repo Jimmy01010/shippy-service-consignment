@@ -53,15 +53,14 @@ func (c *shippingServiceClient) GetConsignments(ctx context.Context, in *GetRequ
 }
 
 // ShippingServiceServer is the server API for ShippingService service.
-// All implementations must embed UnimplementedShippingServiceServer
+// All implementations should embed UnimplementedShippingServiceServer
 // for forward compatibility
 type ShippingServiceServer interface {
 	CreateConsignment(context.Context, *Consignment) (*Response, error)
 	GetConsignments(context.Context, *GetRequest) (*Response, error)
-	mustEmbedUnimplementedShippingServiceServer()
 }
 
-// UnimplementedShippingServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedShippingServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedShippingServiceServer struct {
 }
 
@@ -71,7 +70,6 @@ func (UnimplementedShippingServiceServer) CreateConsignment(context.Context, *Co
 func (UnimplementedShippingServiceServer) GetConsignments(context.Context, *GetRequest) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConsignments not implemented")
 }
-func (UnimplementedShippingServiceServer) mustEmbedUnimplementedShippingServiceServer() {}
 
 // UnsafeShippingServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ShippingServiceServer will
