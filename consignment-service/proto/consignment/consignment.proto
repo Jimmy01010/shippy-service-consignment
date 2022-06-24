@@ -2,10 +2,11 @@
 syntax = "proto3";
 
 //default go package name
-option  go_package =".";
+//option  go_package ="github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment";
 
+option  go_package = "../consignment";
 
-package go.micro.srv.consignment;
+package consignment;
 
 service ShippingService {
   rpc CreateConsignment(Consignment) returns (Response) {}
