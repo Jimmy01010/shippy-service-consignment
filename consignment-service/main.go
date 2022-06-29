@@ -1,14 +1,11 @@
 package main
 
 import (
-	"log"
-	"net"
-
 	// Import the generated protobuf code
 	pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
+	"go-micro.dev/v4"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+	"log"
 )
 
 const (
@@ -47,43 +44,65 @@ type service struct {
 // CreateConsignment - we created just one method on our service,
 // which is a create method, which takes a context and a request as an
 // argument, these are handled by the gRPC server.
-func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*pb.Response, error) {
+func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 
 	// Save our consignment
 	consignment, err := s.repo.Create(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// Return matching the `Response` message we created in our
 	// protobuf definition.
-	return &pb.Response{Created: true, Consignment: consignment}, nil
+	res.Created = true
+	res.Consignment = consignment
+	return nil
 }
 
-func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.Response, error) {
+func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 	consignments := s.repo.GetAll()
-	return &pb.Response{Consignments: consignments}, nil
+	res.Consignments = consignments
+	return nil
 }
 
 func main() {
 
 	repo := &Repository{}
 
-	// Set-up our gRPC server.
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
+	srv := micro.NewService(
+		micro.Name("shippy.service.consignment"),
+	)
+	// initialise flags
+	srv.Init()
 
-	// Register our service with the gRPC server, this will tie our
-	// implementation into the auto-generated interface code for our
-	// protobuf definition.
-	pb.RegisterShippingServiceServer(s, &service{repo})
-
-	// Register reflection service on gRPC server.
-	reflection.Register(s)
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+	// Register service
+	if err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo}); err != nil {
+		log.Panic(err)
 	}
+
+	// start the service
+	// Run the server
+	if err := srv.Run(); err != nil {
+		log.Panic(err)
+	}
+
+	/*	// Set-up our gRPC server.
+		lis, err := net.Listen("tcp", port)
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+		s := grpc.NewServer()
+
+		// Register our service with the gRPC server, this will tie our
+		// implementation into the auto-generated interface code for our
+		// protobuf definition.
+		pb.RegisterShippingServiceServer(s, &service{repo})
+
+		// Register reflection service on gRPC server.
+		// 如果启动了gprc反射服务，那么就可以通过reflection包提供的反射服务查询gRPC服务或调用gRPC方法。
+		// 从而在通过gRPC CLI 工具，我们可以在没有客户端代码的环境下测试gRPC服务。
+		reflection.Register(s)
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("failed to serve: %v", err)
+		}*/
 }
