@@ -5,7 +5,7 @@
 
 系列二:
 1. 使用Docker容器来运行我们的服务;
-   1. 构建客户端镜像 `docker build -t shippy-cli-consignment ..`
+   1. 构建客户端镜像 `docker build -t shippy-cli-consignment -f Dockerfile ..`
    2. 运行 `docker run shippy-cli-consignment`
 2. 使用go-micro框架来进行服务发现。
 
