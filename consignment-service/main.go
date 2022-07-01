@@ -70,7 +70,7 @@ func main() {
 	repo := &Repository{}
 
 	srv := micro.NewService(
-		micro.Name("shippy.service.consignment"),
+		micro.Name("go.micro.srv.consignment"),
 	)
 	// initialise flags
 	srv.Init()

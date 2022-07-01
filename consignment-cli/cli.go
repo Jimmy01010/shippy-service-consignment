@@ -29,7 +29,7 @@ func main() {
 	service := micro.NewService(micro.Name("shippy.consignment.cli"))
 	service.Init()
 
-	client := pb.NewShippingService("shippy.consignment.service", service.Client())
+	client := pb.NewShippingService("go.micro.srv.consignment", service.Client())
 
 	// Set up a connection to the server.
 	//conn, err := grpc.Dial(address, grpc.WithInsecure())
