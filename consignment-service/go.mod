@@ -2,15 +2,22 @@ module consignment
 
 go 1.18
 
-replace github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment => ./proto/consignment
+replace (
+	github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment => ./proto/consignment
+	github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel => ../vessel-service/proto/vessel
+)
 
 require (
 	// github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-20220622080602-19599edcac0b
+	// github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel v0.0.0
 	go-micro.dev/v4 v4.7.0
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed
 )
 
-require github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-00010101000000-000000000000
+require (
+	github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-00010101000000-000000000000
+	github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel v0.0.0-00010101000000-000000000000
+)
 
 require (
 	github.com/Microsoft/go-winio v0.5.0 // indirect

@@ -3,6 +3,7 @@ package main
 import (
 	// Import the generated protobuf code
 	pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
+	vesselProto "github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel"
 	"go-micro.dev/v4"
 	"golang.org/x/net/context"
 	"log"
@@ -38,7 +39,8 @@ func (repo *Repository) GetAll() []*pb.Consignment {
 // in the generated code itself for the exact method signatures etc
 // to give you a better idea.
 type service struct {
-	repo IRepository
+	repo         IRepository
+	vesselClient vesselProto.VesselService
 }
 
 // CreateConsignment - we created just one method on our service,
@@ -75,8 +77,10 @@ func main() {
 	// initialise flags
 	srv.Init()
 
+	vesselClient := vesselProto.NewVesselService("shippy.service.client", srv.Client())
+
 	// Register service
-	if err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo}); err != nil {
+	if err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo, vesselClient}); err != nil {
 		log.Panic(err)
 	}
 
