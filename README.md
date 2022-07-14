@@ -1,4 +1,13 @@
 # shippy-service-consignment
+
+本系列包含下列微服务:
+* consignment-service（货运服务）
+* inventory-service（仓库服务）
+* user-service（用户服务）
+* authentication-service（认证服务）
+* role-service （角色服务）
+* vessel-service（货船服务）
+
 系列一:
 1. 创建了一个consignments (货运)服务和与之交互的客户端;
 2. 实现简单的gRPC通信。
