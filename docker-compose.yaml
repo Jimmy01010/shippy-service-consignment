@@ -4,7 +4,7 @@ services:
   # Services
   consignment:
     restart: always
-    build: ./shippy-service-consignment  # consignment-service
+    build: ./consignment-service  #  shippy-service-consignment
     depends_on:
       - datastore
       - vessel
@@ -16,7 +16,7 @@ services:
 
   vessel:
     restart: always
-    build: ./shippy-service-vessel  # vessel-service
+    build: ./vessel-service  # shippy-service-vessel
     ports:
       - "50052:50051"
     environment:
@@ -25,7 +25,7 @@ services:
 
   # Commands
   cli:
-    build: ./shippy-cli-consignment  # consignment-cli
+    build: ./consignment-cli  # shippy-cli-consignment
 
   # Database tier
   datastore:
