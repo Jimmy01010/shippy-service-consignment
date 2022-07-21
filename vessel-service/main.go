@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"errors"
-	pb "github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel"
+	pb "github.com/Jimmy01010/protocol/vessel-service"
 	"go-micro.dev/v4"
 	"log"
 )

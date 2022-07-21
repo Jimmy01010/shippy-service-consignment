@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
+	pb "github.com/Jimmy01010/protocol/consignment-service"
+	vesselProto "github.com/Jimmy01010/protocol/vessel-service"
 	"log"
-
-	pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
-	vesselProto "github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel"
 )
 
 // Repository - Dummy repository, this simulates the use of a datastore

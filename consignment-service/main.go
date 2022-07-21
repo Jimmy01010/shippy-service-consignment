@@ -1,10 +1,13 @@
 package main
 
 import (
-	// Import the generated protobuf code
-	pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
-	vesselProto "github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel"
+	vesselProto "github.com/Jimmy01010/protocol/vessel-service"
 	"go-micro.dev/v4"
+
+	// Import the generated protobuf code
+	// pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
+	pb "github.com/Jimmy01010/protocol/consignment-service"
+	//"go-micro.dev/v4/cmd/protoc-gen-micro/plugin/micro"
 	"log"
 )
 

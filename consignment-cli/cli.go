@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	pb "github.com/Jimmy01010/shippy/shippy-service-consignment/proto/consignment"
+	pb "github.com/Jimmy01010/protocol/consignment-service"
 	"go-micro.dev/v4"
 	"golang.org/x/net/context"
 	"io/ioutil"

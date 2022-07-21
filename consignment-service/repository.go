@@ -1,6 +1,8 @@
 package main
 
-import pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
+import (
+	pb "github.com/Jimmy01010/protocol/consignment-service"
+)
 
 type IRepository interface {
 	Create(*pb.Consignment) (*pb.Consignment, error)

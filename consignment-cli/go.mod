@@ -2,18 +2,13 @@ module consignment-cli
 
 go 1.18
 
-//require (
-//	github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-20220622080602-19599edcac0b
-//	google.golang.org/grpc v1.45.0
-//)
-
-replace github.com/Jimmy01010/shippy/shippy-service-consignment/proto/consignment => ../consignment-service/proto/consignment
+//replace github.com/Jimmy01010/shippy/shippy-service-consignment/proto/consignment => ../consignment-service/proto/consignment
 
 require (
-	github.com/Jimmy01010/shippy/shippy-service-consignment/proto/consignment v0.0.0
+	//github.com/Jimmy01010/shippy/shippy-service-consignment/proto/consignment v0.0.0
+	github.com/Jimmy01010/protocol/consignment-service v0.0.1
 	go-micro.dev/v4 v4.7.0
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed
-	google.golang.org/grpc v1.27.0
 )
 
 require (
@@ -47,7 +42,6 @@ require (
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20210502180810-71e4cd670f79 // indirect
 	golang.org/x/text v0.3.6 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
