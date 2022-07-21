@@ -10,8 +10,6 @@ ENV GO111MODULE=on
 
 COPY . .
 
-WORKDIR consignment-cli
-
 RUN  go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o shippy-cli-consignment
 
