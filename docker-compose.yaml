@@ -11,7 +11,8 @@ services:
     ports:
       - "50051:50051"
     environment:
-      MICRO_SERVER_ADDRESS: "50051"
+      MICRO_REGISTRY: "mdns"
+      MICRO_SERVER_ADDRESS: ":50051"
       DB_HOST: "mongodb://datastore:27017"
 
   vessel:
@@ -20,12 +21,15 @@ services:
     ports:
       - "50052:50051"
     environment:
-      MICRO_SERVER_ADDRESS: "50051"
+      MICRO_REGISTRY: "mdns"
+      MICRO_SERVER_ADDRESS: ":50051"
       DB_HOST: "mongodb://datastore:27017"
 
   # Commands
   cli:
     build: ./consignment-cli  # shippy-cli-consignment
+    environment:
+      MICRO_REGISTRY: "mdns"
 
   # Database tier
   datastore:
@@ -40,5 +44,7 @@ services:
       - "27017"
     command: mongod --logpath=/dev/null
 
-
-
+networks:    # 设置自定义网络(默认网桥模式), 让本地容器可以互相通信 docker network create docker_compose_network --subnet 172.20.1.0/24
+  default:
+    external:
+      name: docker_compose_network
