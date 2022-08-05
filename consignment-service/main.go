@@ -1,36 +1,56 @@
 package main
 
 import (
+	"context"
+	"os"
+
 	vesselProto "github.com/Jimmy01010/protocol/vessel-service"
 	"go-micro.dev/v4"
 
-	// Import the generated protobuf code
-	// pb "github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment"
 	pb "github.com/Jimmy01010/protocol/consignment-service"
 	//"go-micro.dev/v4/cmd/protoc-gen-micro/plugin/micro"
 	"log"
 )
 
 func main() {
-
-	repo := &Repository{}
-
-	srv := micro.NewService(
-		micro.Name("go.micro.srv.consignment"),
+	service := micro.NewService(
+		micro.Name("shippy.service.consignment"),
 	)
 	// initialise flags
-	srv.Init()
+	service.Init()
 
-	vesselClient := vesselProto.NewVesselService("go.micro.srv.vessel", srv.Client())
+	// 创建mongo客户端
+	var uri string
+	if uri = os.Getenv("DB_HOST"); uri == "" {
+		log.Fatal("'DB_HOST' is empty You must set your 'DB_HOST' environmental variable.")
+	}
+	client, err := CreateMongoClient(context.Background(), uri, 0)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	defer func() {
+		if err = client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
+	// 连接mongo服务端
+	consignmentCollection := client.Database("shippy").Collection("consignment")
+	repository := &MongoRepository{consignmentCollection}
+
+	// 创建一个货船服务？ 为啥这里这个名字不是vessel服务名
+	vesselClient := vesselProto.NewVesselService("shippy.service.client", service.Client())
+	h := &handler{repository, vesselClient}
 
 	// Register service
-	if err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo, vesselClient}); err != nil {
+	if err := pb.RegisterShippingServiceHandler(service.Server(), h); err != nil {
 		log.Panic(err)
 	}
 
 	// start the service
 	// Run the server
-	if err := srv.Run(); err != nil {
+	if err := service.Run(); err != nil {
 		log.Panic(err)
 	}
 
