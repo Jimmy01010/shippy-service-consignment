@@ -44,7 +44,7 @@ services:
       - "27017"
     command: mongod --logpath=/dev/null
 
-networks:    # 设置自定义网络(默认网桥模式), 让本地容器可以互相通信 docker network create docker_compose_network --subnet 172.20.1.0/24
-  default:
+networks:    # Set up a custom network (default bridge mode)， so that local containers can communicate with each other
+  default:   # docker network create docker_compose_network --subnet 172.20.1.0/24
     external:
       name: docker_compose_network
