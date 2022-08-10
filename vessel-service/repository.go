@@ -7,6 +7,7 @@ import (
 	pb "github.com/Jimmy01010/protocol/vessel-service"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type repository interface {
@@ -60,12 +61,12 @@ func UnmarshalVessel(vessel *Vessel) *pb.Vessel {
 }
 
 type Vessel struct {
-	ID        string
-	Capacity  int32
-	Name      string
-	Available bool
-	OwnerID   string
-	MaxWeight int32
+	ID        string `bson:"ID" json:"ID"`
+	Capacity  int32  `bson:"capacity" json:"capacity"`
+	Name      string `bson:"name" json:"name"`
+	Available bool   `bson:"available" json:"available"`
+	OwnerID   string `bson:"ownerID" json:"ownerID"`
+	MaxWeight int32  `bson:"maxWeight" json:"maxWeight"`
 }
 
 // FindAvailable - checks a specification against a map of vessels,
@@ -99,6 +100,18 @@ func (repository *MongoRepository) FindAvailable(ctx context.Context, spec *Spec
 
 // Create a new vessel
 func (repository *MongoRepository) Create(ctx context.Context, vessel *Vessel) error {
-	_, err := repository.collection.InsertOne(ctx, vessel)
+	//_, err := repository.collection.InsertOne(ctx, vessel)
+	upsert := true
+
+	filter := bson.D{{
+		"ID",
+		bson.M{"ID": "vessel001"},
+	}}
+	_, err := repository.collection.UpdateOne(ctx, filter, vessel, &options.UpdateOptions{Upsert: &upsert})
 	return err
 }
+
+//func (repository *MongoRepository) Upsert() {
+//	_, err := repository.collection.UpdateOne()
+//	return err
+//}
