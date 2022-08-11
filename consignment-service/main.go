@@ -40,7 +40,8 @@ func main() {
 	repository := &MongoRepository{consignmentCollection}
 
 	// 创建一个货船服务？ 为啥这里这个名字不是vessel服务名
-	vesselClient := vesselProto.NewVesselService("shippy.service.client", service.Client())
+	// vesselClient := vesselProto.NewVesselService("shippy.service.client", service.Client())
+	vesselClient := vesselProto.NewVesselService("shippy.service.vessel", service.Client())
 	h := &handler{repository, vesselClient}
 
 	// Register service

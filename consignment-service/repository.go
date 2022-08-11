@@ -2,18 +2,20 @@ package main
 
 import (
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
 	pb "github.com/Jimmy01010/protocol/consignment-service"
 )
 
 // Consignment pb的Consignment映射
 type Consignment struct {
-	ID          string     `json:"id"`
-	Weight      int32      `json:"weight"`
-	Description string     `json:"description"`
-	Containers  Containers `json:"containers"`
-	VesselID    string     `json:"vessel_id"`
+	ID          string     `bson:"ID" json:"id"`
+	Weight      int32      `bson:"weight" json:"weight"`
+	Description string     `bson:"description" json:"description"`
+	Containers  Containers `bson:"containers" json:"containers"`
+	VesselID    string     `bson:"vesselID" json:"vessel_id"`
 }
 
 type Containers []*Container
@@ -104,13 +106,23 @@ type MongoRepository struct {
 
 // Create -
 func (repository *MongoRepository) Create(ctx context.Context, consignment *Consignment) error {
-	_, err := repository.collection.InsertOne(ctx, consignment)
+	// _, err := repository.collection.InsertOne(ctx, consignment)
+	upsert := true
+	filter := bson.M{"vesselID": consignment.VesselID}
+	updateArgs := bson.M{
+		"$set": consignment,
+	}
+	_, err := repository.collection.UpdateOne(ctx, filter, updateArgs, &options.UpdateOptions{Upsert: &upsert})
 	return err
 }
 
 // GetAll -
 func (repository *MongoRepository) GetAll(ctx context.Context) ([]*Consignment, error) {
-	cur, err := repository.collection.Find(ctx, nil, nil)
+	filter := bson.M{} // 空结构体匹配所有
+	cur, err := repository.collection.Find(ctx, filter, nil)
+	if err != nil {
+		return nil, err
+	}
 	var consignments []*Consignment
 	for cur.Next(ctx) {
 		var consignment *Consignment

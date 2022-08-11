@@ -35,11 +35,11 @@ func (s *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 		MaxWeight: req.Weight,
 		Capacity:  int32(len(req.Containers)),
 	})
-	if vesselResponse == nil {
-		return fmt.Errorf("error fetching vessel, returned nil")
-	}
 	if err != nil {
 		return err
+	}
+	if vesselResponse == nil {
+		return fmt.Errorf("error fetching vessel, returned nil")
 	}
 	log.Printf("Found vessel: %s \n", vesselResponse.Vessel.Name)
 

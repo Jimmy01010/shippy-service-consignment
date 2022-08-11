@@ -76,6 +76,8 @@ func main() {
 		log.Panic(err)
 	}
 	defer client.Disconnect(context.Background())
+	
+	// MongoDB 将自动创建不存在的数据库或集合。
 	vesselCollection := client.Database("shippy").Collection("vessels")
 	repo := &MongoRepository{vesselCollection}
 	h := &handler{repo}

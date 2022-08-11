@@ -61,7 +61,7 @@ func UnmarshalVessel(vessel *Vessel) *pb.Vessel {
 }
 
 type Vessel struct {
-	ID        string `bson:"ID" json:"ID"`
+	ID        string `bson:"ID,omitempty" json:"ID"`
 	Capacity  int32  `bson:"capacity" json:"capacity"`
 	Name      string `bson:"name" json:"name"`
 	Available bool   `bson:"available" json:"available"`
@@ -80,13 +80,17 @@ func (repository *MongoRepository) FindAvailable(ctx context.Context, spec *Spec
 	filter := bson.D{{
 		"capacity",
 		bson.D{{
-			"$lte",
+			"$gte",
 			spec.Capacity,
-		}, {
-			"$lte",
-			spec.MaxWeight,
 		}},
-	}}
+	},
+		{
+			"maxWeight",
+			bson.D{{
+				"$gte",
+				spec.MaxWeight,
+			}},
+		}}
 	vessel := &Vessel{}
 	err := repository.collection.FindOne(ctx, filter).Decode(vessel)
 	if err == mongo.ErrNoDocuments {
@@ -103,11 +107,11 @@ func (repository *MongoRepository) Create(ctx context.Context, vessel *Vessel) e
 	//_, err := repository.collection.InsertOne(ctx, vessel)
 	upsert := true
 
-	filter := bson.D{{
-		"ID",
-		bson.M{"ID": "vessel001"},
-	}}
-	_, err := repository.collection.UpdateOne(ctx, filter, vessel, &options.UpdateOptions{Upsert: &upsert})
+	filter := bson.M{"ID": vessel.ID}
+	updateArgs := bson.M{
+		"$set": vessel,
+	}
+	_, err := repository.collection.UpdateOne(ctx, filter, updateArgs, &options.UpdateOptions{Upsert: &upsert})
 	return err
 }
 
