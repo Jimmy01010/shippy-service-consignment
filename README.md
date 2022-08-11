@@ -22,5 +22,12 @@
 3. Vessel 服务
    1. 构建服务端镜像 `docker build -t vessel-service .`
 
+系列三:
+1. 使用docker-compose来管理容器
+   1. 停止所有当前运行的所有容器: `docker stop $(docker ps -qa)`
+   2. 构建镜像时不适用缓存：`docker-compose build --no-cache`
+2. 使用mongo db替代本地文件存储
+
+
 上诉服务都在docker中启动:
 Docker 有自己独立的 mdns，与宿主主机 Mac 的 mdns 不一致。把客户端也 Docker 化，这样服务端与客户端就在同一个网络层下，顺利使用 mdns 做服务发现
