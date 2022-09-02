@@ -104,7 +104,7 @@ type MongoRepository struct {
 	collection *mongo.Collection
 }
 
-// Create -
+// Create - todo: 验证upsert
 func (repository *MongoRepository) Create(ctx context.Context, consignment *Consignment) error {
 	// _, err := repository.collection.InsertOne(ctx, consignment)
 	upsert := true

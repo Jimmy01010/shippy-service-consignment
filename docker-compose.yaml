@@ -35,6 +35,26 @@ services:
     depends_on:
       - consignment
 
+  user:
+    build: ./shippy-user-service
+    ports:
+      - "50053:50051"
+    environment:
+      MICRO_ADDRESS: ":50051"
+      DB_HOST: "database"
+      DB_USER: "admin"
+      DB_PASSWORD: "password"
+      DB_NAME: "postgres"
+    depends_on:
+        - database
+
+
+  user-cli:
+    build: ./shippy-cli-user
+    depends_on:
+      - user
+
+
   # Database tier
   datastore:
     image: mongo
@@ -48,7 +68,17 @@ services:
       - "27017"
     command: mongod --logpath=/dev/null
 
+  database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "admin"
+    ports:
+      - "5432:5432"
+
 networks: # Set up a custom network (default bridge mode). so that local containers can communicate with each other
   default:  # docker network create docker_compose_network --subnet 172.20.1.0/24ls
     external:
       name: docker_compose_network
+
+
