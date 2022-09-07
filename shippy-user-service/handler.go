@@ -7,12 +7,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// CustomClaims is our custom metadata, which will be hashed
-// and sent as the second segment in our JWT
-type CustomClaims struct {
-	User *pb.User
-	// jwt.StandardClaims
-}
+//// CustomClaims is our custom metadata, which will be hashed
+//// and sent as the second segment in our JWT
+//type CustomClaims struct {
+//	User *pb.User
+//	// jwt.StandardClaims
+//}
 
 type authAble interface {
 	Decode(token string) (*CustomClaims, error)
@@ -45,6 +45,7 @@ func (s *handler) Get(ctx context.Context, req *pb.User, res *pb.Response) error
 
 // Create 创建一个新用户
 func (s *handler) Create(ctx context.Context, user *pb.User, res *pb.Response) error {
+	// 保存哈希后的密码
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -80,6 +81,7 @@ func (s *handler) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 		return err
 	}
 
+	// 将bcrypt散列密码与需要认证的明文密码进行比较
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return fmt.Errorf("user auth failed: %s", err.Error())
 	}

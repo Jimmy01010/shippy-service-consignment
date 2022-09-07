@@ -58,12 +58,12 @@ func (p PostgresRepository) Create(ctx context.Context, user *User) error {
 }
 
 func (p PostgresRepository) GetByEmail(ctx context.Context, email string) (*User, error) {
-	var user *User
+	var user User
 	if err := p.db.GetContext(ctx, &user, "select * from users where email = $1", email); err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return &user, nil
 }
 
 // MarshalUser 将pb结构解析为DB的user结构
