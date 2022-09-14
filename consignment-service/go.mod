@@ -1,25 +1,10 @@
 module github.com/Jimmy01010/shippy-service-consignment/consignment-service
 
-go 1.18
-
-//replace (
-//	github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment => ./proto/consignment
-//	github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel => ../vessel-service/proto/vessel
-//)
-//
-//require (
-//	// github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-20220622080602-19599edcac0b
-//	// github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel v0.0.0
-//	go-micro.dev/v4 v4.7.0
-//)
-//
-//require (
-//	github.com/Jimmy01010/shippy-service-consignment/consignment-service/proto/consignment v0.0.0-00010101000000-000000000000
-//	github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel v0.0.0-00010101000000-000000000000
-//)
+go 1.17
 
 require (
 	github.com/Jimmy01010/protocol/consignment-service v0.0.1
+	github.com/Jimmy01010/protocol/shippy-user v0.0.3
 	github.com/Jimmy01010/protocol/vessel-service v0.0.1
 	go-micro.dev/v4 v4.7.0
 	go.mongodb.org/mongo-driver v1.10.0
@@ -43,7 +28,6 @@ require (
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v0.0.0-20201106050909-4977a11b4351 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
-	github.com/micro/cli/v2 v2.1.2 // indirect
 	github.com/miekg/dns v1.1.43 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect

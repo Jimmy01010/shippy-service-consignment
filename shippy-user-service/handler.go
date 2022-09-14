@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	pb "github.com/Jimmy01010/protocol/shippy-user"
 	"golang.org/x/crypto/bcrypt"
@@ -74,11 +75,11 @@ func (s *handler) GetAll(ctx context.Context, req *pb.Request, res *pb.Response)
 	return nil
 }
 
-// Auth 用户认证
+// Auth 用户认证, 用户通过密码登录时验证有效性, 并返回该次登录的token
 func (s *handler) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 	user, err := s.repository.GetByEmail(ctx, req.Email)
 	if err != nil {
-		return err
+		return fmt.Errorf("get user from db on auth failed: %s", err.Error())
 	}
 
 	// 将bcrypt散列密码与需要认证的明文密码进行比较
@@ -88,7 +89,7 @@ func (s *handler) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 
 	token, err := s.tokenService.Encode(req)
 	if err != nil {
-		return err
+		return fmt.Errorf("encode auth failed: %s", err.Error())
 	}
 
 	res.Token = token
@@ -96,16 +97,19 @@ func (s *handler) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 	return nil
 }
 
-//func (s *handler) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
-//	claims, err := s.tokenService.Decode(req.Token)
-//	if err != nil {
-//		return err
-//	}
-//
-//	if claims.User.Id == "" {
-//		return errors.New("invalid user")
-//	}
-//
-//	res.Valid = true
-//	return nil
-//}
+// ValidateToken 验证token的合法性
+func (s *handler) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
+	// 解码并验证TOKEN
+	claims, err := s.tokenService.Decode(req.Token)
+	if err != nil {
+		return err
+	}
+
+	// 在这里可以继续验证token的payload部分的有效性
+	if claims.User.Email == "" {
+		return errors.New("invalid user")
+	}
+
+	res.Valid = true
+	return nil
+}

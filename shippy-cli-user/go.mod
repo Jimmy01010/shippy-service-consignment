@@ -3,7 +3,7 @@ module github.com/Jimmy01010/shippy-service-consignment/shippy-cli-user
 go 1.17
 
 require (
-	github.com/Jimmy01010/protocol/shippy-user v0.0.1
+	github.com/Jimmy01010/protocol/shippy-user v0.0.3
 	github.com/urfave/cli/v2 v2.3.0
 	go-micro.dev/v4 v4.7.0
 )

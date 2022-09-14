@@ -53,8 +53,9 @@ func (srv *TokenService) Encode(user *pb.User) (string, error) {
 	claims := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: 15000,
-			Issuer:    "shippy.service.user",
+			// 测试的时候不设置过期时间
+			// ExpiresAt: time.Now().Add(time.Minute * 1).Unix(),
+			Issuer: "shippy.service.user",
 		},
 	}
 

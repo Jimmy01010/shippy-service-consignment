@@ -15,11 +15,11 @@ func createUser(ctx context.Context, service micro.Service, user *userProto.User
 	client := userProto.NewUserService("shippy.service.user", service.Client())
 	rsp, err := client.Create(ctx, user)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create a new user: %s", err.Error())
 	}
 
 	// print the response
-	fmt.Println("Response: ", rsp.User)
+	fmt.Println("a new user is created: ", rsp.User)
 
 	authResponse, err := client.Auth(context.TODO(), &userProto.User{
 		Email:    user.Email,

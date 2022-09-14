@@ -49,7 +49,8 @@ func (p PostgresRepository) GetAll(ctx context.Context) ([]*User, error) {
 
 func (p PostgresRepository) Create(ctx context.Context, user *User) error {
 	user.ID = uuid.New().String()
-	insertSql := "insert into users (id, name, email, company, password) values ($1, $2, $3, $4, $5)"
+	insertSql := "insert into users (id, name, email, company, password) values ($1, $2, $3, $4, $5) " +
+		"ON CONFLICT ON CONSTRAINT users_email_key DO NOTHING"
 	if _, err := p.db.
 		ExecContext(ctx, insertSql, user.ID, user.Name, user.Email, user.Company, user.Password); err != nil {
 		return nil

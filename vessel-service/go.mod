@@ -1,6 +1,6 @@
 module github.com/Jimmy01010/shippy-service-consignment/vessel-service
 
-go 1.18
+go 1.17
 
 //replace github.com/Jimmy01010/shippy-service-consignment/vessel-service/proto/vessel => ./proto/vessel
 //

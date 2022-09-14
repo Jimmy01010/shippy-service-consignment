@@ -7,6 +7,7 @@ services:
     build: ./consignment-service  #  shippy-service-consignment
     depends_on:
       - datastore
+      - user
       - vessel
     ports:
       - "50051:50051"
@@ -32,6 +33,7 @@ services:
     build: ./consignment-cli  # shippy-cli-consignment
     environment:
       MICRO_REGISTRY: "mdns"
+      TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImVtYWlsIjoiZXdhbi52YWxlbnRpbmU4OUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IlRlc3RpbmcxMjMifSwiaXNzIjoic2hpcHB5LnNlcnZpY2UudXNlciJ9.6tlhBVqRA0IJgmU_oTERV82STslpUJQKXoGOkd4-Ryc"
     depends_on:
       - consignment
 
